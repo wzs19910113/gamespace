@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <link href="css/bas.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+	</style>
+    <script type="text/javascript" src="js/bas.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+	<script type="text/javascript">
+		
+		$(document).ready
+		(
+			function()
+			{
+				var I = $("#info1");
+				var canvas=document.getElementById('C');
+				var cxt=canvas.getContext('2d');
+				var Can = $("#can");
+				var W = Can.width();
+				var H = Can.height();
+				var clickX=0, clickY=0;
+				Can.attr("width",W);
+				Can.attr("height",H);
+				
+				var L = new ImageLoader();
+				L.load("A","img/c/s1.png");
+				L.load("B","img/c/s2.png");
+				L.load("C","img/c/s3.png");
+				L.load("D","img/c/s5.png");
+				L.load("E","img/c/king.png");
+				L.load("F","img/c/s4.png");
+				L.load("Q","img/texture/qm.png");
+				
+				var M = new Init(Can,L,cxt,W,H);
+				var all = M.init();
+				
+				
+				//-------TEST-------
+			}
+		)
+	
+	</script>
+    <title>-------礼拜天的国王：游戏设置-------</title>
+	<div id="all">
+        <body>
+			<!-- head s-->
+			<div class=" _el2" id="title">游戏设置</div>
+			<!-- head e-->
+			
+			<!--content s-->
+			<div class="_bd1 _radius10px" id="main">
+				<div id="can">
+					<canvas id="C" width="748" height="485">对不起，你的浏览器不支持HTML5</canvas>
+				</div>
+			</div>
+			<!--content e-->
+			
+            <!-- footer s-->
+			<div style="width:100%;">
+				<div class=" _el1" id="footer">
+				<div id="info1"></div>
+				<div id="info2"></div>
+				</div>
+			 </div>
+			<!-- footer e-->
+		
+		</body>
+	</div>
+</html>

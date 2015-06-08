@@ -1,0 +1,73 @@
+*{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+body
+div
+{
+	margin-left:auto;
+	margin-right:auto;
+	cursor:default;
+	font-family: fantasy;
+}
+
+black{color:black;}
+red{color:#F4243B;}
+green{color:green;}
+yellow{color:yellow;}
+blue{color:blue;}
+purple{color:purple;}
+brown{color:brown;}
+white{color:white;}
+pink{color:pink;}
+grey{color:grey;}
+
+/*********** CLASS **************/
+div > ._btn
+{
+	width: 30%;
+	height: 60%;
+	float:left;
+	padding: 6px 8px 7px;
+	margin-left:1.6%;
+	margin-right:1.6%;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1;
+	color: #333;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: top;
+	cursor: pointer;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	letter-spacing: 1px;
+	font-size: 80%;
+}
+._operation_panel { width:100%;height:13%;margin-top:5%;}
+._clear{clear:both;}
+
+/*********** OPTION **************/
+#title{ width:60%;padding:10px;font-size:26px;text-align:center;}
+div > #can{ width:100%; height:70%;border-radius:8px;margin-top:5px;}
+div > #k{ border:solid 1px blue;}
+div > #C{ width:100%;height:100%;}
+div > #gamestuff{width:100%;height:96%;}
+div > #scrbrd ,#stpbrd{text-align: center;}
+div > #restart{
+	text-align: center;
+	width: 80%;
+	margin-left:10%;
+	margin-right:10%;
+}
+div > #help{float:right;}
+
+
+
+
+
+
+
+

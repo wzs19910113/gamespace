@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <link href="css/bas.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+	</style>
+    <script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+		
+		$(document).ready
+		(
+			function()
+			{
+				$("body").css("background","#AAA");
+				$("body").keydown(function(event){
+					if(event.which==113){
+						location = "C.html";
+					}
+				});
+				setTimeout(function(){location = "game.html"},2150);
+				//-------TEST-------
+			}
+		)
+	
+	</script>
+    <title>-------礼拜天的国王：游戏开始-------</title>
+	<div id="all">
+        <body>
+			<!-- head s-->
+			<div class=" _el2 _bottom20" id="title"></div>
+			<!-- head e-->
+			
+			<!--content s-->
+			<div class="_bd1 _top50 _radius10px" id="main">
+				<div class="_frame5">页面跳转中...<br/>(按 F2 可进入金屋)</div>
+			</div>
+			<!--content e-->
+			
+            <!-- footer s-->
+			<div style="width:100%;">
+				<div class=" _el1" id="footer">
+				<div id="info1"></div>
+				<div id="info2"></div>
+				</div>
+			 </div>
+			<!-- footer e-->
+		
+		</body>
+	</div>
+</html>

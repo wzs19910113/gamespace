@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8">
+		<!-- Sets initial viewport load and disables zooming  -->
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+        <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		
+		<!-- Include the compiled Ratchet CSS -->
+		<link href="img/x.png" rel="icon">
+		<link href="css/ratchet.css" rel="stylesheet">
+		<link href="css/ratchet-theme-android.css." rel="stylesheet">
+		<link href="css/ratchet-theme-android.min.css" rel="stylesheet">
+		<link href="css/bas.css" rel="stylesheet" type="text/css">
+		
+		<!-- Include the compiled Ratchet JS -->
+		<script src="js/ratchet.js"></script>
+		<script src="js/ratchet.min.js"></script>
+		<script src="js/square.js"></script>
+		<script src="js/jquery.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var canvas=document.getElementById('C');
+			var cxt=canvas.getContext('2d');
+			var Can = $("#can");
+			var C = $("#C");
+			var scrbrd = $("#scrbrd");
+			var stpbrd = $("#stpbrd");
+			var restart = $("#restart");
+			var help = $("#help");
+			var spec = $("#spec");
+			var hide = false;
+			var pc = isPC();
+			var br = getBrowser();
+			
+			if(pc){
+				Can.css("width","320px");
+				Can.css("margin-left","37%");
+				Can.css("margin-right","37%");
+			}
+			//自动调整画布宽度和高度
+			C.attr("width",Can.css("width").substr(0,Can.css("width").length-2));
+			C.attr("height",Can.css("height").substr(0,Can.css("height").length-2));
+			
+			var w = C.attr("width");//画布宽度
+			var h = C.attr("height");//画布高度
+			
+			var column = 6;//纵向方格数
+			var row = 6;//横向方格数
+			var radius = 18;//方格大小
+			
+			restart.hide();
+			spec.hide();
+			var table = new Table(cxt,scrbrd,stpbrd,1,column,row,radius,w,h);//创建桌面
+			table.init();//初始化桌面
+			table.brickControll();//调整砖块
+			
+			//绑定按钮
+			$("#TL").bind("click",function(){
+				table.turn(90);//左旋转90度
+			});
+			$("#FL").bind("click",function(){
+				table.flip(5);//上下翻转
+			});
+			$("#TR").bind("click",function(){
+				table.turn(-90);//右旋转90度
+			});
+			help.bind("click",function(){
+				if(!hide){
+					hide = true;
+					$("#gamestuff").hide();
+					spec.show();
+					help.text("开始游戏");
+				}
+				else{
+					hide = false;
+					$("#gamestuff").show();
+					spec.hide();
+					help.text("游戏规则");
+					table.draw();
+				}
+			});
+			restart.bind("click",function(){
+				cxt.clearRect(0,0,w,h);
+				restart.hide();
+				spec.hide();
+				stpbrd.show();
+				$("#TL").show();
+				$("#FL").show();
+				$("#TR").show();
+				table = new Table(cxt,scrbrd,stpbrd,1,column,row,radius,w,h);//创建桌面
+				table.init();//初始化桌面
+				table.showScore();
+				table.brickControll();//调整砖块
+			})
+
+			help.click();
+			
+			//检查客户端是否是PC
+			function isPC(){
+				var userAgentInfo = navigator.userAgent;
+				var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
+				var res = true;
+				for (var v = 0; v < Agents.length; v++) {
+					if (userAgentInfo.indexOf(Agents[v]) > 0) {
+						res = false;
+						break;
+					}
+				}
+				return res;
+			}
+		
+			//获取客户端浏览器
+			/*
+				@return:
+					0:其他浏览器 |
+					1:IE |
+					2:FF |
+					3:Chrome |
+					4:Opera |
+			*/
+			function getBrowser(){
+				var res = 0;
+				if((navigator.userAgent.indexOf('MSIE')>=0)&&(navigator.userAgent.indexOf('Opera')<0)){
+					res = 1;
+				}
+				else if(navigator.userAgent.indexOf('Firefox')>=0){
+					res = 2;
+				}
+				else if(navigator.userAgent.indexOf('Chrome')>=0){
+					res = 3;
+				}
+				else if(navigator.userAgent.indexOf('Opera')>=0){
+					res = 4;
+				}
+				return res;
+			}
+		})
+		
+		</script>
+		<title>旋转沙盒</title>
+	</head>
+	<body>
+		<!-- head s-->
+		<header class="bar bar-nav">
+			<div id="title">旋转沙盒</div>
+		</header>
+		<!-- head e-->
+		
+		<!--content s-->
+		<div class="content" style="border:solid;">
+			<div class="badge" id="help">游戏规则</div>
+			<div class="_clear"></div>
+			<div id="spec"><br/>
+				- 通过转动沙盒让方块坠落。<br/><br/>
+				- 3 个以上的同色相邻方块将被消除，玩家获得相应的分数。<br/><br/>
+				- 如果连续三次操作没有方块被消除，沙盒的顶部会随机出现新的方块<br/><br/>
+				- 当沙盒的方块填满时游戏结束<br/><br/>
+				- 随着分数增加，新增的方块会变多，种类也会变多<br/>
+			</div>
+			<div id="gamestuff">
+				<div id="scrbrd">&nbsp;</div>
+				<div id="can">
+					<canvas id="C">对不起，你的浏览器不支持HTML5</canvas>
+				</div>
+				<div id="stpbrd">&nbsp;</div>
+				<div class="table _operation_panel" id="op">
+					<div class="_btn _center" id="TL">左转</div>
+					<div class="_btn _center" id="FL">翻转</div>
+					<div class="_btn _center" id="TR">右转</div>
+					<div class="_btn _center" id="restart">重新开始</div>
+				</div>
+			</div>
+		</div>
+		<!--content e-->
+		
+		<!-- footer s-->
+		<!-- footer e-->
+	
+	</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8">
+		<!-- Sets initial viewport load and disables zooming  -->
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+        <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		
+		<!-- Include the compiled Ratchet CSS -->
+		<link href="" rel="icon">
+		<link href="css/ratchet.css" rel="stylesheet">
+		<link href="css/ratchet-theme-android.css." rel="stylesheet">
+		<link href="css/ratchet-theme-android.min.css" rel="stylesheet">
+		<link href="css/bas.css" rel="stylesheet" type="text/css">
+		
+		<!-- Include the compiled Ratchet JS -->
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+		<script src="js/ratchet.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script src="js/image.controller.js"></script>
+		<script src="js/game.controller.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+
+			var canvas=document.getElementById('C');
+			var C = $("#C");
+			var ctx=canvas.getContext('2d');
+			var srcs= new Array("img/up.png","img/down.png");
+			var IC = new ImageController();//图片控制器
+
+	    	ctx.font = "bold 100px Microsoft YaHei";
+			ctx.textBaseline = 'middle';//设置文本的垂直对齐方式
+			ctx.textAlign = 'center'; //设置文本的水平对对齐方式
+			var progressStr = "";
+
+			IC.setChain(srcs);//导入全部图片地址
+			IC.loadAll();//载入全部图片
+			IC.extend(250, 
+				function(){//图像加载中
+					if(IC.progressStr()!=progressStr){
+						ctx.clearRect(0,0,1080,1680);
+						progressStr = IC.progressStr();
+					}
+					ctx.fillText("图像加载中..."+IC.progressStr(), 540, 840);
+				},
+				function(){//图像全部加载完成
+					$("#footer").show();
+					var EH = new EventHandler(C,ctx,$("#restart"),$("#timebar"),$("#scorebar"));
+					EH.init();
+				}
+			);
+
+			//----函数----
+			function isWeiXin(){
+			    var ua = window.navigator.userAgent.toLowerCase();
+			    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+			        return true;
+			    }else{
+			        return false;
+			    }
+			}
+		});
+		</script>
+	<title>Sigma</title>
+	</head>
+	<body >
+		<div class="content">
+			<!-- head -->
+			<div id="help-page" class="modal">
+				<header class="bar bar-nav">
+					<a class="icon icon-close pull-right" href="#help-page"></a>
+					<h1 class="title">游戏说明</h1>
+				</header>
+				<div class="content">
+					<p class="content-padded" style="oveflow:scroll">
+						快捷说明：<br/>按下多个数字可以获得它们的总和，再按下下方的 “<theme>=</theme>” 按钮，然后再按另一个数字就可以形成一个等式：如果等式成立，则等式的值转化为分数。<br/>请在有限的时间内获得更多的分数！
+						<br/><br/>
+						详细说明：<br/>
+						·初始游戏时间限制为 <theme>60</theme> 秒；<br/><br/>
+						·每成功完成一次等式，可以延长 <theme>10 + 等式的值的十位数</theme> 秒时间；如果延长后的时间超过 <theme>60</theme> 秒，则超过部分的秒数会转变为等值的分数； <br/><br/>
+						·按下右下角的 “<theme>R</theme>” 按钮可以重置整个数字表，但需要花费 <theme>50</theme> 点分数；按钮的冷却时间为 <theme>60</theme> 秒；<br/><br/>
+						·再按一次已经被按下的数字按钮可以让按钮复位，但需要花费 <theme>10</theme> 点分数；<br/><br/>
+						·数字的值是随机分配的，数字表上出现的数字都是唯一的，数字的范围为 <theme>1-99</theme>；<br/><br/>
+					</p>
+				</div>
+			</div>
+			<!-- /head -->
+			<!-- content -->
+			<div id="timebar" class="theme">时间 : </div>
+			<div id="scorebar"class="theme">分数 : </div>
+			<div id="can">
+				<canvas id="C" width="1080px" height="1960px">对不起，你的浏览器不支持HTML5</canvas>
+			</div>
+			<!-- /content -->
+			
+			<!-- footer -->
+			<div id="footer" class="bar bar-standard bar-footer" style="display:none">
+				<a id="restart" class="icon icon-refresh pull-left">重新开始</a>
+				<a href="#help-page" class="icon icon-info pull-right"> 游戏说明</a>
+				<a id="q" class="pull-left"></a>
+			</div>
+			<!-- /footer -->
+		</div>
+	</body>
+</html>

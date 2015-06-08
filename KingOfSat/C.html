@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <link href="css/bas.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+	</style>
+    <script type="text/javascript" src="js/bas.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/JSONtnlt.js"></script>
+    <script type="text/javascript" src="js/godhouse.js"></script>
+	<script type="text/javascript">
+		
+		$(document).ready
+		(
+			function()
+			{
+				$("body").css("background","#F8C027");
+				$.get(
+					"operation.php?OP=1&F="+readFile,
+					function(res){
+						if(parseInt(res)==-1){
+							$("#panel_4").append("FILE ["+ readFile +"] DOES NOT FOUND");
+						}
+						else if(parseInt(res)==0){
+							$("#panel_4").append("WRONG OPTION");
+						}
+						else{
+							var data = eval("("+res+")");
+							config(data);
+						}
+					}
+				);
+				
+				function config(data){
+					var JT = new JSONtnltor();
+					var all = JT.exec(data);
+					var configer = new Configer(all);
+					configer.exec();
+				}
+				
+				$("body").keydown(function(event){
+					var key = (String.fromCharCode(event.which)).charAt(0);
+					if(key=='Q'){
+						location = "index.html";
+					}
+				})
+			}
+		)
+	
+	</script>
+    <title>-------礼拜天的国王：游戏配置-------</title>
+	<div id="all">
+        <body>
+			<!-- head s-->
+			<div class=" _el15" id="title"><red>欢迎来到金屋</div>
+			<!-- head e-->
+			
+			<!--content s-->
+			<div class="_bd1 _radius10px" id="mainh">
+				<div class="_frame6">
+					<div id="window"> 
+						<div class="_bottom-radius10px" id="information">
+							<div id="info1">-</div>
+							<div id="info2">-</div>
+							<div id="info3">-</div>
+							<div id="info5">-</div>
+							<div id="info4">-</div>
+							<div id="info6">-</div>
+							<div class="_clear"></div>
+						</div>
+					</div>
+					<div id="panel">
+						<div class="_cursor-pointer" id="panel_1">
+							<div id="panel_2">
+								<div id="panel_2_1">信息栏</div>
+								<div id="panel_2_2"></div>
+							</div>
+							<div id="panel_3">
+								<div id="panel_2_1">操作栏</div>
+								<div id="panel_3_2"></div>
+							</div>
+						</div>
+						<div id="panel_4">操作记录：<br/></div>
+						<div class="_cursor-pointer" id="panel_5">
+							<button class="_btn4">完成配置</button>
+						</div>
+					</div>
+					<div class="_clear"></div>
+				</div>
+			</div>
+			<!--content e-->
+			
+            <!-- footer s-->
+			<div style="width:100%;" id="footer">
+				<div class=" _el1">
+					 按 F5 重新开始游戏 | 按 Q 键开始新的游戏
+				</div>
+			 </div>
+			<!-- footer e-->
+		
+		</body>
+	</div>
+</html>
