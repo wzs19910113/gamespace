@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8">
+		<script src="image.loader.js"></script>
+		<script type="text/javascript">
+		window.onload=function(){
+
+			var srcs= new Array("img/example1.png","img/example2.png","img/example3.png");
+			var IL = new ImageLoader();
+
+			var load = document.getElementById("load-info"),
+				gallary = document.getElementById("gallary"),
+				node, text;
+
+			/*  import the image url(s) into a queue;
+			*	You can also do this by calling addImage( src );
+			*	Example:
+			*		IL.addImage("img/example1.png");
+			*		IL.addImage("img/example2.png");
+			*		IL.addImage("img/example3.png");
+			*/
+			IL.setChain(srcs);
+
+			/* load all the images in the queue */
+			if(IL.loadAll()){
+				IL.extend(
+					/* processing function : called during loading */
+					function(){
+						node = document.createElement("div");
+						/* IL.progressStr() : get the percentage of the progress in the format of string "n%" ;
+						*  Alternatively, you can get the value(0-100) of percentage of the progress by calling IL.progress();
+						*/
+						text = document.createTextNode(IL.progressStr());
+						node.appendChild(text);
+						load.appendChild(node);
+					},
+					/* end function : called after loading */
+					function(){
+						node = document.createElement("div");
+						text = document.createTextNode("Finish");
+						node.appendChild(text);
+						load.appendChild(node);
+						/* IL.traverse() : traverses all the loaded imaged of IL */
+						IL.traverse(function(image){
+							node = document.createElement("img");
+							node.src = image.src;
+							node.width = 200;
+							node.height = 200;
+							gallary.appendChild(node);
+						})
+						
+					},
+					/* frequency in milesecond of calling processing function ( defautl value is 250 )*/
+					1
+				);
+			}
+
+		}
+		</script>
+	</head>
+	<body>
+		<div id="load-info">Start loading..</div>
+		<div id="gallary" style="border:1px solid;padding:1em;margin:1em">Loaded images:</div>
+	</body>
+</html>
